@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ict.dao.GridsAnomalyCacheDao" >
+  <resultMap id="BaseResultMap" type="com.ict.model.GridsAnomalyCache" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="Info_col_time" property="infoColTime" jdbcType="INTEGER" />
+    <result column="package_type" property="packageType" jdbcType="SMALLINT" />
+    <result column="send_time" property="sendTime" jdbcType="INTEGER" />
+    <result column="data_lenth" property="dataLenth" jdbcType="SMALLINT" />
+    <result column="package_number" property="packageNumber" jdbcType="INTEGER" />
+    <result column="grid_longitude" property="gridLongitude" jdbcType="INTEGER" />
+    <result column="grid_latitude" property="gridLatitude" jdbcType="INTEGER" />
+    <result column="anomaly_class" property="anomalyClass" jdbcType="TINYINT" />
+    <result column="anomaly_type" property="anomalyType" jdbcType="TINYINT" />
+    <result column="ship_type" property="shipType" jdbcType="TINYINT" />
+    <result column="ship_count" property="shipCount" jdbcType="SMALLINT" />
+    <result column="ship_normal_count" property="shipNormalCount" jdbcType="SMALLINT" />
+    <result column="insert_time" property="insertTime" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, Info_col_time, package_type, send_time, data_lenth, package_number, grid_longitude, 
+    grid_latitude, anomaly_class, anomaly_type, ship_type, ship_count, ship_normal_count, 
+    insert_time
+  </sql>
+  <select id="getGridsAnomalyCache" resultMap="BaseResultMap"  >
+    select
+    *
+    from Grids_Anomaly_Cache
+    <if test="insertTime != 0">
+      where insert_time <![CDATA[<]]> #{insertTime,jdbcType=DOUBLE}
+    </if>
+    ORDER  BY insert_time desc
+    limit  #{num,jdbcType=BIGINT}
+  </select>
+
+  <select id="getCount" resultType="int">
+    select
+    count(*) as countNum
+    from Ships_Anomaly_Cache
+    where insert_time > #{insertTime,jdbcType=DOUBLE}
+  </select>
+</mapper>

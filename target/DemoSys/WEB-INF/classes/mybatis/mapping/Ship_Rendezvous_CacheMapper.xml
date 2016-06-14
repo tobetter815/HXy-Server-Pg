@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ict.dao.IShip_Rendezvous_CacheDao" >
+  <select id="getShip_Rendezvous_Cache" resultType="Ship_Rendezvous_Cache">
+      Select id,Info_col_time as info_col_time,package_type,send_time,data_lenth,package_number,longitude
+      ,latitude,anomaly_class,normal_recv_interval,avg_ship_count,ship_count_per_day,rendezvous_ship_count
+      ,rendezvous_start_time,rendezvous_ship_mmsi_list,insert_time
+      from Ship_Rendezvous_Cache
+      <if test="insertTime != 0">
+          where insert_time <![CDATA[<]]> #{insertTime,jdbcType=DOUBLE}
+      </if>
+      ORDER  BY insert_time desc
+      limit #{num}
+  </select>
+
+    <select id="getCount" resultType="int">
+        select
+        count(*) as countNum
+        from Ship_Rendezvous_Cache
+        where insert_time > #{insertTime,jdbcType=DOUBLE}
+    </select>
+</mapper>

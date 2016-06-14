@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ict.dao.IAIS_Device_Offline_CacheDao" >
+  <select id="getAIS_Device_Offline_Cache" resultType="AIS_Device_Offline_Cache">
+      Select id,Info_col_time as info_col_time,package_type,send_time,data_lenth,package_number,longitude
+      ,latitude,anomaly_class,offline_probability,normal_recv_interval,avg_ship_count,ship_count_per_day
+      ,total_offline_time,ship_MMSI,ship_type,direction,heading,speed,IMO_Number as iMO_Number,ship_name
+      ,call_sign,ship_length,ship_breadth,destination,ETA as eTA,draft,insert_time
+      from "AIS_Device_Offline_Cache"
+      <if test="insertTime != 0">
+          where insert_time <![CDATA[<]]> #{insertTime,jdbcType=DOUBLE}
+      </if>
+      ORDER  BY insert_time desc
+      limit #{num}
+  </select>
+
+    <select id="getCount" resultType="int">
+        select
+        count(*) as countNum
+        from "AIS_Device_Offline_Cache"
+        where insert_time > #{insertTime,jdbcType=DOUBLE}
+    </select>
+</mapper>

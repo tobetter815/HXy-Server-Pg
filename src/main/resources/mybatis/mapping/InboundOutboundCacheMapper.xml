@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ict.dao.InboundOutboundCacheDao" >
+  <resultMap id="BaseResultMap" type="com.ict.model.InboundOutboundCache" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="Info_col_time" property="infoColTime" jdbcType="INTEGER" />
+    <result column="package_type" property="packageType" jdbcType="SMALLINT" />
+    <result column="send_time" property="sendTime" jdbcType="INTEGER" />
+    <result column="data_lenth" property="dataLenth" jdbcType="SMALLINT" />
+    <result column="package_number" property="packageNumber" jdbcType="INTEGER" />
+    <result column="recv_time" property="recvTime" jdbcType="INTEGER" />
+    <result column="anomaly" property="anomaly" jdbcType="INTEGER" />
+    <result column="ship_MMSI" property="shipMmsi" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="INTEGER" />
+    <result column="latitude" property="latitude" jdbcType="INTEGER" />
+    <result column="locate_time" property="locateTime" jdbcType="INTEGER" />
+    <result column="is_inbound" property="isInbound" jdbcType="TINYINT" />
+    <result column="port_unlocode" property="portUnlocode" jdbcType="VARCHAR" />
+    <result column="port_name" property="portName" jdbcType="VARCHAR" />
+    <result column="country_unlcode" property="countryUnlcode" jdbcType="VARCHAR" />
+    <result column="insert_time" property="insertTime" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, Info_col_time, package_type, send_time, data_lenth, package_number, recv_time, 
+    anomaly, ship_MMSI, longitude, latitude, locate_time, is_inbound, port_unlocode, 
+    port_name, country_unlcode, insert_time
+  </sql>
+  <select id="getInboundOutboundCache" resultMap="BaseResultMap"  >
+    select
+    *
+    from "Inbound_Outbound_Cache"
+    <if test="insertTime != 0">
+      where insert_time <![CDATA[<]]> #{insertTime,jdbcType=DOUBLE}
+    </if>
+    ORDER  BY insert_time desc
+    limit  #{num,jdbcType=BIGINT}
+  </select>
+
+  <select id="getCount" resultType="int">
+    select
+    count(*) as countNum
+    from Ships_Anomaly_Cache
+    where insert_time > #{insertTime,jdbcType=DOUBLE}
+  </select>
+</mapper>
